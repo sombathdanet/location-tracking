@@ -90,6 +90,7 @@ Add the following to your `Info.plist`:
 
 ## Quick Start
 
+<<<<<<< HEAD
 ### Option 1: Live Location Service (Recommended for Rider/Delivery Apps)
 
 For apps that need continuous location tracking with automatic server synchronization:
@@ -129,18 +130,35 @@ await service.stop();
 ### Option 2: Basic Location Tracking
 
 For apps that need manual control over location updates:
+=======
+### Quick Start
+>>>>>>> db58829 (remove-md)
 
 ```dart
 import 'package:location_tracking/background_locator.dart';
 import 'package:location_tracking/location_dto.dart';
-import 'package:location_tracking/settings/android_settings.dart';
-import 'package:location_tracking/settings/ios_settings.dart';
-import 'package:location_tracking/settings/locator_settings.dart';
 
+// Initialize
+await BackgroundLocator.initialize();
+
+// Start tracking
+await BackgroundLocator.registerLocationUpdate(
+  (LocationDto location) {
+    print('Lat: ${location.latitude}, Lng: ${location.longitude}');
+  },
+);
+
+// Stop tracking
+await BackgroundLocator.unRegisterLocationUpdate();
+```
+
+### Full Example with Callbacks
+
+```dart
 // Initialize the plugin
 await BackgroundLocator.initialize();
 
-// Register location update
+// Register with callbacks
 await BackgroundLocator.registerLocationUpdate(
   locationCallback,
   initCallback: initCallback,
@@ -151,9 +169,8 @@ await BackgroundLocator.registerLocationUpdate(
     distanceFilter: 0,
     androidNotificationSettings: AndroidNotificationSettings(
       notificationChannelName: 'Location tracking',
-      notificationTitle: 'Start Location Tracking',
-      notificationMsg: 'Track location in background',
-      notificationBigMsg: 'Background location is on to keep the app up-to-date with your location.',
+      notificationTitle: 'Tracking Active',
+      notificationMsg: 'Location tracking in background',
     ),
   ),
   iosSettings: IOSSettings(
@@ -162,24 +179,21 @@ await BackgroundLocator.registerLocationUpdate(
   ),
 );
 
-// Callback functions (must be top-level or static)
+// Callbacks (must be top-level or static)
 @pragma('vm:entry-point')
-static void locationCallback(LocationDto locationDto) {
-  print('Location: ${locationDto.latitude}, ${locationDto.longitude}');
+static void locationCallback(LocationDto location) {
+  print('Location: ${location.latitude}, ${location.longitude}');
 }
 
 @pragma('vm:entry-point')
 static void initCallback(Map<dynamic, dynamic> params) {
-  print('Callback initialized');
+  print('Service initialized');
 }
 
 @pragma('vm:entry-point')
 static void disposeCallback() {
-  print('Callback disposed');
+  print('Service disposed');
 }
-
-// Stop location updates
-await BackgroundLocator.unRegisterLocationUpdate();
 ```
 
 ## Configuration Options
