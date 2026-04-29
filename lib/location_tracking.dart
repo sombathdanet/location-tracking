@@ -91,3 +91,4 @@ export 'settings/android_settings.dart';
 export 'settings/ios_settings.dart';
 export 'settings/locator_settings.dart';
 export 'keys.dart';
+export 'live_location_service.dart';

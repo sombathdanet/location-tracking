@@ -1,6 +1,6 @@
 name: location_tracking
 description: A Flutter plugin for receiving location updates even when the app is terminated. Works on both iOS and Android with support for background execution.
-version: 2.1.2
+version: 2.2.0
 homepage: https://github.com/sombathdanet/location-tracking
 repository: https://github.com/sombathdanet/location-tracking
 issue_tracker: https://github.com/sombathdanet/location-tracking/issues

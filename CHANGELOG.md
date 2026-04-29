@@ -1,3 +1,13 @@
+## 2.2.0
+* **NEW:** Added `LiveLocationService` for easy background tracking with server sync
+* **NEW:** Added `LiveLocationConfig` for simplified configuration
+* **NEW:** Automatic offline support with local storage and retry logic
+* **NEW:** Built-in error handling and sync callbacks
+* Added comprehensive documentation in `LIVE_LOCATION_GUIDE.md`
+* Added `QUICK_REFERENCE.md` for quick setup
+* Added example implementation for rider/delivery apps
+* Perfect for ride-sharing, delivery, and fleet management apps
+
 ## 2.1.2
 * Added library directive and proper exports for better code organization
 * Added web platform declaration (not supported)

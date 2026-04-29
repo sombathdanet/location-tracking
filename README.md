@@ -1,8 +1,11 @@
 # location_tracking
 
 [![pub package](https://img.shields.io/pub/v/location_tracking.svg)](https://pub.dev/packages/location_tracking)
+[![Platform Compliance](https://img.shields.io/badge/Platform-Compliant-green.svg)](PLATFORM_COMPLIANCE.md)
 
 A Flutter plugin for receiving location updates even when the app is terminated. Works on both iOS and Android platforms with full support for background execution.
+
+**✅ Fully compliant with [Apple](https://developer.apple.com/documentation/corelocation) and [Google](https://developer.android.com/training/location) official recommendations.**
 
 ## Features
 
@@ -14,6 +17,9 @@ A Flutter plugin for receiving location updates even when the app is terminated.
 - 📍 Distance filter to reduce unnecessary updates
 - 🔄 Auto-restart after device reboot (Android)
 - ⚙️ Platform-specific settings for iOS and Android
+- 🚀 **NEW:** Live location service with automatic server sync
+- 💾 **NEW:** Offline support with local storage and retry logic
+- 🔄 **NEW:** Easy-to-use configuration for rider/delivery apps
 
 ## Platform Support
 
@@ -26,7 +32,11 @@ A Flutter plugin for receiving location updates even when the app is terminated.
 | macOS    | ❌ Not supported | - |
 | Linux    | ❌ Not supported | - |
 
+**✅ Fully compliant with [Apple](https://developer.apple.com/documentation/corelocation) and [Google](https://developer.android.com/training/location) official recommendations.**
+
 **Note:** Web, Windows, macOS, and Linux platforms are not supported as they don't have native background location tracking capabilities.
+
+See [PLATFORM_COMPLIANCE.md](PLATFORM_COMPLIANCE.md) for detailed compliance verification.
 
 ## Installation
 
@@ -78,9 +88,47 @@ Add the following to your `Info.plist`:
 </array>
 ```
 
-## Usage
+## Quick Start
 
-### Basic Example
+### Option 1: Live Location Service (Recommended for Rider/Delivery Apps)
+
+For apps that need continuous location tracking with automatic server synchronization:
+
+```dart
+import 'package:location_tracking/location_tracking.dart';
+
+// Configure the service
+final config = LiveLocationConfig(
+  apiBaseUrl: 'https://api.yourapp.com',
+  apiEndpoint: '/api/v1/locations',
+  updateIntervalSeconds: 10,
+  distanceFilterMeters: 10,
+);
+
+// Start tracking
+final service = LiveLocationService();
+await service.start(
+  config: config,
+  onLocation: (location) {
+    print('📍 ${location.latitude}, ${location.longitude}');
+  },
+  onSync: (count) {
+    print('✅ Synced $count locations');
+  },
+  onError: (error) {
+    print('❌ Error: $error');
+  },
+);
+
+// Stop tracking
+await service.stop();
+```
+
+**📖 [Complete Live Location Guide](LIVE_LOCATION_GUIDE.md)** - Detailed documentation with examples for rider apps, delivery apps, and more.
+
+### Option 2: Basic Location Tracking
+
+For apps that need manual control over location updates:
 
 ```dart
 import 'package:location_tracking/background_locator.dart';
@@ -153,8 +201,29 @@ await BackgroundLocator.unRegisterLocationUpdate();
 ## Additional Resources
 
 For more detailed information, check out:
-- [Example app](example/) - Complete working example
-- [API Documentation](https://pub.dev/documentation/location_tracking/latest/)
+- 📖 [Live Location Guide](LIVE_LOCATION_GUIDE.md) - Complete guide for rider/delivery apps
+- 💻 [Example app](example/) - Complete working examples
+- 📚 [API Documentation](https://pub.dev/documentation/location_tracking/latest/)
+- ✅ [Platform Compliance](PLATFORM_COMPLIANCE.md) - Verification of Apple/Google compliance
+- ✅ [Apple Recommendations Verified](APPLE_RECOMMENDATIONS_VERIFIED.md) - Line-by-line iOS verification
+- 🔋 [iOS Battery Reality](IOS_BATTERY_REALITY.md) - Honest analysis of iOS battery impact
+
+## Use Cases
+
+### Rider/Delivery Apps
+Use `LiveLocationService` for automatic tracking with server sync:
+- Real-time driver location updates
+- Offline support with automatic retry
+- Battery-efficient tracking
+- Easy configuration
+
+See [LIVE_LOCATION_GUIDE.md](LIVE_LOCATION_GUIDE.md) for complete implementation guide.
+
+### Custom Location Handling
+Use `BackgroundLocator` for manual control:
+- Custom location processing
+- Local-only tracking
+- Integration with existing systems
 
 ## Important Notes
 
